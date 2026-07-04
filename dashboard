@@ -1,0 +1,33 @@
+package com.orangehrm.pages;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+public class DashboardPage extends BasePage {
+    // Locators
+    private final By userDropdown = By.cssSelector(".oxd-userdropdown-name");
+    private final By logoutLink = By.linkText("Logout");
+    private final By dashboardHeader = By.cssSelector(".oxd-topbar-header-title");
+    
+    // Navigation Sidebar Selectors
+    private final By adminMenu = By.xpath("//span[normalize-space()='Admin']");
+    private final By pimMenu = By.xpath("//span[normalize-space()='PIM']");
+    private final By leaveMenu = By.xpath("//span[normalize-space()='Leave']");
+    public DashboardPage(WebDriver driver) {
+        super(driver);
+    }
+    public boolean isDashboardHeaderVisible() {
+        return isElementDisplayed(dashboardHeader);
+    }
+    public String getLoggedInUsername() {
+        return getElementText(userDropdown);
+    }
+    public void navigateToPim() {
+        click(pimMenu);
+    }
+    public void navigateToAdmin() {
+        click(adminMenu);
+    }
+    public void logout() {
+        click(userDropdown);
+        click(logoutLink);
+    }
+}
