@@ -1,0 +1,38 @@
+ackage com.orangehrm.pages;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+public class PIMPage extends BasePage {
+    // Locators
+    private final By addEmployeeButton = By.xpath("//a[normalize-space()='Add Employee']");
+    private final By firstNameInput = By.name("firstName");
+    private final By middleNameInput = By.name("middleName");
+    private final By lastNameInput = By.name("lastName");
+    private final By employeeIdInput = By.xpath("//label[normalize-space()='Employee Id']/parent::div/following-sibling::div/input");
+    private final By saveButton = By.cssSelector("button[type='submit']");
+    private final By successToast = By.cssSelector(".oxd-toast-content-text");
+    public PIMPage(WebDriver driver) {
+        super(driver);
+    }
+    public String addEmployee(String firstName, String middleName, String lastName) {
+        click(addEmployeeButton);
+        waitForElementVisible(firstNameInput);
+        
+        enterText(firstNameInput, firstName);
+        enterText(middleNameInput, middleName);
+        enterText(lastNameInput, lastName);
+        
+        // Retrieve generated Employee ID
+        WebElement empIdElement = waitForElementVisible(employeeIdInput);
+        String empId = empIdElement.getAttribute("value");
+        
+        click(saveButton);
+        return empId;
+    }
+    public boolean isSuccessToastVisible() {
+        return isElementDisplayed(successToast);
+    }
+    public String getSuccessToastText() {
+        return getElementText(successToast);
+    }
+}
