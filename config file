@@ -1,0 +1,38 @@
+package com.orangehrm.config;
+import java.io.InputStream;
+import java.util.Properties;
+public class Config {
+    private static Properties properties = new Properties();
+    static {
+        try (InputStream input = Config.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                System.out.println("Warning: config.properties not found on classpath, using defaults.");
+            } else {
+                properties.load(input);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static String get(String key, String defaultValue) {
+        return properties.getProperty(key, defaultValue);
+    }
+    public static String getBrowser() {
+        return get("browser", "chrome");
+    }
+    public static String getBaseUrl() {
+        return get("baseUrl", "https://opensource-demo.orangehrmlive.com");
+    }
+    public static String getDefaultUsername() {
+        return get("defaultUsername", "Admin");
+    }
+    public static String getDefaultPassword() {
+        return get("defaultPassword", "admin123");
+    }
+    public static int getTimeout() {
+        return Integer.parseInt(get("timeout", "10"));
+    }
+    public static boolean getHeadless() {
+        return Boolean.parseBoolean(get("headless", "true"));
+    }
+}
